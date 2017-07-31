@@ -35,6 +35,17 @@
   }
   debugPage()
   <% } else { %>
-  page.open('<%= url %>')
+  page.open('<%= url %>', function(status){
+      if (status === "success") {
+      // PhantomJS 2 has a memory consumption problem. This works around it.
+      //
+      // http://stackoverflow.com/questions/24436460
+      // https://github.com/ariya/phantomjs/issues/10357
+      // https://github.com/ariya/phantomjs/commit/5768b705a0
+      if (page.clearMemoryCache) {
+        setInterval(page.clearMemoryCache, 500)
+      }
+    }
+  })
   <% } %>
 }(phantom))
