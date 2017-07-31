@@ -34,7 +34,7 @@ var PhantomJSBrowser = function (baseBrowserDecorator, config, args, logger) {
 
   var options = args && args.options || config && config.options || {}
   var providedFlags = args && args.flags || config && config.flags || []
-
+  var self = this;
   this._start = function (url) {
     // create the js file that will open karma
     var captureFile = this._tempDir + '/capture.js'
@@ -75,14 +75,13 @@ var PhantomJSBrowser = function (baseBrowserDecorator, config, args, logger) {
     }
 
     flags.push(captureFile)
-    var self = this;
     // and start phantomjs
     this._execCommand(this._getCommand(), flags)
 
     this._process.stderr.on('data', function (data) {
       log.error('' + data)
-      if((data + "").indexOf("PhantomJS crashed.") > -1) {
-         log.debug('RESTARTING PHANTOM');
+      if((data + '').indexOf("PhantomJS crashed.") > -1) {
+         log.info('RESTARTING PHANTOM');
          self.restart();
       }
     })
