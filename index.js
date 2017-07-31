@@ -75,12 +75,15 @@ var PhantomJSBrowser = function (baseBrowserDecorator, config, args, logger) {
     }
 
     flags.push(captureFile)
-
+    var self = this;
     // and start phantomjs
     this._execCommand(this._getCommand(), flags)
 
     this._process.stderr.on('data', function (data) {
       log.error('' + data)
+      if((data + "").indexOf("PhantomJS crashed.") > -1) {
+         self.restart();
+      }
     })
 
     this._process.stdout.on('data', function (data) {
