@@ -82,6 +82,7 @@ var PhantomJSBrowser = function (baseBrowserDecorator, config, args, logger) {
     this._process.stderr.on('data', function (data) {
       log.error('' + data)
       if((data + "").indexOf("PhantomJS crashed.") > -1) {
+         log.debug('RESTARTING PHANTOM');
          self.restart();
       }
     })
