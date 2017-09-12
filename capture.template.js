@@ -43,7 +43,7 @@
       // https://github.com/ariya/phantomjs/issues/10357
       // https://github.com/ariya/phantomjs/commit/5768b705a0
       if (page.clearMemoryCache) {
-        setInterval(page.clearMemoryCache, 500)
+        setInterval(page.clearMemoryCache, 300)
       }
     }
   })
